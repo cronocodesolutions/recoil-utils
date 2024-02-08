@@ -14,7 +14,7 @@
   },
   "scripts": {
     "build": "vite build",
-    "postbuild": "cp package.json dist & cp LICENSE dist",
+    "postbuild": "cp package.json dist & cp LICENSE dist & cp README.md dist",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
