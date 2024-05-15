@@ -31,6 +31,16 @@ const [stateValue, loading] = useRecoilCachedValue(
 );
 ```
 
+#### When use selectorFamily but you want to reuse same cache atom
+
+```ts
+const [stateValue, loading] = useRecoilCachedValue(
+  recoilSelectorFamily(selectorKey),
+  defaultValue,
+  "UniqueKeyForAnySelectorKey"
+);
+```
+
 ### License
 
 Recoil is [MIT licensed](./LICENSE).
