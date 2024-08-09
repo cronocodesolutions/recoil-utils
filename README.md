@@ -41,6 +41,21 @@ const [stateValue, loading] = useRecoilCachedValue(
 );
 ```
 
+#### You can access cache atom in other selector 
+
+```ts
+import { getRecoilCacheAtom, useRecoilCachedValue } from "@cronocode/recoil-utils";
+
+export const testSelector = selector({
+  key: 'testSelector',
+  get: ({ get }) => {
+    const recoilSelectorCacheData = get(getRecoilCacheAtom(recoilSelector, defaultValue));
+    ...
+  }
+});
+
+```
+
 ### License
 
 Recoil is [MIT licensed](./LICENSE).
