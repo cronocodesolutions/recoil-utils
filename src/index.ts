@@ -4,13 +4,9 @@ import { RecoilValueReadOnly, RecoilState, atom, useRecoilState, useRecoilValueL
 const cacheAtoms: Record<string, RecoilState<any>> = {};
 
 export function useRecoilCachedValue<T>(recoilValue: RecoilValueReadOnly<T>, defaultValue: T, cacheKey?: string): [T, boolean] {
-  const key = cacheKey ?? `${recoilValue.key}__CACHE_ATOM__`;
+  const cacheAtom = getRecoilCacheAtom(recoilValue, defaultValue, cacheKey);
 
-  if (!cacheAtoms[key]) {
-    cacheAtoms[key] = atom({ key, default: defaultValue });
-  }
-
-  const [cache, setCache] = useRecoilState(cacheAtoms[key]);
+  const [cache, setCache] = useRecoilState(cacheAtom);
   const { state, contents } = useRecoilValueLoadable(recoilValue);
 
   useEffect(() => {
@@ -20,4 +16,14 @@ export function useRecoilCachedValue<T>(recoilValue: RecoilValueReadOnly<T>, def
   }, [state, contents]);
 
   return [cache, state === 'loading'];
+}
+
+export function getRecoilCacheAtom<T>(recoilValue: RecoilValueReadOnly<T>, defaultValue: T, cacheKey?: string): RecoilState<T> {
+  const key = cacheKey ?? `${recoilValue.key}__CACHE_ATOM__`;
+
+  if (!cacheAtoms[key]) {
+    cacheAtoms[key] = atom({ key, default: defaultValue });
+  }
+
+  return cacheAtoms[key];
 }
